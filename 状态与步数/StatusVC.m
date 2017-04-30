@@ -10,7 +10,7 @@
 #import <CoreMotion/CoreMotion.h>
 
 #define JD 0.1
-#define JSD 0.01
+#define JSD 0.005
 
 @interface StatusVC ()
 

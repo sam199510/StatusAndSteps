@@ -22,6 +22,8 @@
 }
 
 @property (strong, nonatomic) IBOutlet UILabel *txtNumberOfSteps;
+@property (strong, nonatomic) IBOutlet UILabel *txtStartNumberOfSteps;
+@property (strong, nonatomic) IBOutlet UILabel *txtEndNumberOfSteps;
 @property (strong, nonatomic) IBOutlet UITextField *txtSelectDate;
 @property (strong, nonatomic) IBOutlet UILabel *txtQueryResult;
 
@@ -108,7 +110,7 @@
     [self fingetTap:gestureRecognizer];
 }
 
-
+//获取权限
 -(void) getGrant{
     //查看该设备上是否支持HealthKit
     if (![HKHealthStore isHealthDataAvailable]) {
@@ -131,7 +133,7 @@
     }];
 }
 
-
+//读取步数
 -(void) readStepCount {
     //查询采样信息
     HKSampleType *sampleType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
@@ -179,7 +181,7 @@
     [self.healthStore executeQuery:sampleQuery];
 }
 
-
+//读取初始步数
 -(void) readStartStepCount {
     //查询采样信息
     HKSampleType *sampleType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
@@ -221,7 +223,7 @@
         
         //查询要放在多线程中进行，如果要对UI进行刷新，要回到主线程
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.txtNumberOfSteps.text = [NSString stringWithFormat:@"%d步", allStepCount];
+            self.txtStartNumberOfSteps.text = [NSString stringWithFormat:@"初始步数:%d步", allStepCount];
         }];
     }];
     
@@ -229,7 +231,7 @@
     [self.healthStore executeQuery:sampleQuery];
 }
 
-
+//读取结束步数
 -(void) readEndStepCount {
     //查询采样信息
     HKSampleType *sampleType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierStepCount];
@@ -273,7 +275,7 @@
         
         //查询要放在多线程中进行，如果要对UI进行刷新，要回到主线程
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.txtNumberOfSteps.text = [NSString stringWithFormat:@"%d步", allStepCount];
+            self.txtEndNumberOfSteps.text = [NSString stringWithFormat:@"结束步数:%d步", allStepCount];
         }];
     }];
     
@@ -281,13 +283,13 @@
     [self.healthStore executeQuery:sampleQuery];
 }
 
-
+//计算步数差
 -(void) countDif{
     _difCountOfStartStepAndEndStep = _endCount - _startCount;
     [self insertDB:_difCountOfStartStepAndEndStep];
 }
 
-
+//创建数据库
 -(void)createDB{
     //        NSHomeDirectory()：获取手机APP的沙盒路径
     NSString *strPath=[NSHomeDirectory() stringByAppendingString:@"/Documents/db01.db"];
@@ -321,7 +323,7 @@
     }
 }
 
-
+//在数据库中插入数据
 -(void) insertDB:(NSInteger) difCount {
     
     NSString *strPath=[NSHomeDirectory() stringByAppendingString:@"/Documents/db01.db"];
@@ -380,7 +382,7 @@
     }
 }
 
-
+//在数据库中查询某一天的步数
 -(void) selectDB{
     NSString *strPath=[NSHomeDirectory() stringByAppendingString:@"/Documents/db01.db"];
     //        创建并且打开数据库，如果路径下面没有数据库，创建指定的数据库，如果路径下已经存在数据库，加载数据库到内存
