@@ -46,16 +46,10 @@
                                     <constraint firstAttribute="height" constant="30" id="gg0-Y6-qdA"/>
                                 </constraints>
                                 <state key="normal" title="开始"/>
-                                <connections>
-                                    <action selector="startRecord:" destination="OxA-Ar-3Ak" eventType="touchUpInside" id="Kxd-H3-iIn"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="al9-uJ-ViJ">
                                 <rect key="frame" x="195" y="215" width="149" height="30"/>
                                 <state key="normal" title="停止"/>
-                                <connections>
-                                    <action selector="stopRecord:" destination="OxA-Ar-3Ak" eventType="touchUpInside" id="vHW-W5-aFb"/>
-                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7ck-DM-UGg">
                                 <rect key="frame" x="26" y="270" width="323" height="30"/>
@@ -136,6 +130,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="步数" image="numberOfSteps.png" selectedImage="numberOfSteps.png" id="TKR-gw-NN8"/>
                     <connections>
+                        <outlet property="btnStart" destination="5mr-yA-96M" id="C4m-wN-o9W"/>
+                        <outlet property="btnStop" destination="al9-uJ-ViJ" id="DwC-xU-UwE"/>
                         <outlet property="txtEndNumberOfSteps" destination="vEK-Mo-daR" id="EmV-Hi-Pds"/>
                         <outlet property="txtNumberOfSteps" destination="BBu-8f-cCb" id="nsc-IP-6GB"/>
                         <outlet property="txtQueryResult" destination="DkW-eQ-WqE" id="sji-Vj-8Fa"/>

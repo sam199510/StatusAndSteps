@@ -19,16 +19,18 @@
     
     //设定数据库模型
     FMDatabase *_mDB;
+    
+    BOOL _isStart;
 }
 
 @property (strong, nonatomic) IBOutlet UILabel *txtNumberOfSteps;
 @property (strong, nonatomic) IBOutlet UILabel *txtStartNumberOfSteps;
 @property (strong, nonatomic) IBOutlet UILabel *txtEndNumberOfSteps;
+@property (strong, nonatomic) IBOutlet UIButton *btnStart;
+@property (strong, nonatomic) IBOutlet UIButton *btnStop;
 @property (strong, nonatomic) IBOutlet UITextField *txtSelectDate;
 @property (strong, nonatomic) IBOutlet UILabel *txtQueryResult;
 
-- (IBAction)startRecord:(id)sender;
-- (IBAction)stopRecord:(id)sender;
 - (IBAction)btnSelectStepCount:(id)sender;
 
 @end
@@ -60,6 +62,11 @@
     _txtSelectDate.delegate = self;
     _txtSelectDate.datePickerInput = YES;
     _txtSelectDate.inputAccessoryView = toolBar;
+    
+    [_btnStart addTarget:self action:@selector(startRecord) forControlEvents:UIControlEventTouchUpInside];
+    [_btnStop setHidden:YES];
+    [_btnStop addTarget:self action:@selector(stopRecord) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,6 +79,8 @@
     //获取权限
     [self getGrant];
     [self createDB];
+    
+    _isStart = NO;
 }
 
 /*
@@ -89,12 +98,22 @@
     [self selectDB];
 }
 
-- (IBAction)startRecord:(id)sender {
+- (void)startRecord {
+    if (_isStart == NO) {
+        [_btnStart setHidden:YES];
+        [_btnStop setHidden:NO];
+    }
+    _isStart = YES;
     [self readStartStepCount];
 }
 
 
-- (IBAction)stopRecord:(id)sender {
+- (void)stopRecord {
+    if (_isStart == YES) {
+        [_btnStart setHidden:NO];
+        [_btnStop setHidden:YES];
+    }
+    _isStart = NO;
     [self readEndStepCount];
 }
 
